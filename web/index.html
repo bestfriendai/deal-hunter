@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DealHunter - Find the Best Deals</title>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://unpkg.com/framer-motion@11/dist/framer-motion.js"></script>
+  <style>
+    :root { --bg: #ffffff; --bg-secondary: #f8f9fa; --text: #111111; --text-secondary: #666666; --accent: #f59e0b; --accent-dark: #d97706; --border: #e5e5e5; }
+    .dark { --bg: #0a0a0a; --bg-secondary: #111111; --text: #ffffff; --text-secondary: #a0a0a0; --border: #222222; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; transition: background 0.3s, color 0.3s; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+    header { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: var(--bg); border-bottom: 1px solid var(--border); }
+    .header-inner { display: flex; justify-content: space-between; align-items: center; height: 64px; }
+    .logo { font-size: 20px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+    .logo-icon { width: 32px; height: 32px; background: linear-gradient(135deg, #f59e0b, #d97706); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px; }
+    .nav-right { display: flex; align-items: center; gap: 16px; }
+    .theme-toggle { width: 40px; height: 40px; border-radius: 10px; border: 1px solid var(--border); background: var(--bg); cursor: pointer; display: flex; align-items: center; justify-content: center; }
+    .app-store-btn { background: #111111; color: white; padding: 10px 20px; border-radius: 10px; text-decoration: none; font-weight: 600; font-size: 14px; }
+    .dark .app-store-btn { background: #ffffff; color: #000000; }
+    .hero { padding: 140px 0 100px; text-align: center; }
+    .hero-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 100px; font-size: 14px; color: var(--text-secondary); margin-bottom: 32px; }
+    .hero h1 { font-size: clamp(40px, 7vw, 72px); font-weight: 800; line-height: 1.1; margin-bottom: 24px; letter-spacing: -0.03em; }
+    .hero h1 span { background: linear-gradient(135deg, #f59e0b, #d97706); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .hero p { font-size: 20px; color: var(--text-secondary); max-width: 560px; margin: 0 auto 48px; }
+    .hero-cta { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+    .hero-mockup { margin-top: 80px; }
+    .mockup-frame { max-width: 320px; margin: 0 auto; background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 32px; overflow: hidden; aspect-ratio: 9/19; box-shadow: 0 40px 80px rgba(0,0,0,0.15); }
+    .mockup-inner { width: 100%; height: 100%; background: linear-gradient(180deg, #f59e0b 0%, #d97706 100%); display: flex; flex-direction: column; padding: 24px; gap: 12px; }
+    .deal-card { background: rgba(255,255,255,0.2); padding: 14px 16px; border-radius: 12px; text-align: left; }
+    .deal-card .discount { font-size: 20px; font-weight: 700; }
+    .features { padding: 100px 0; background: var(--bg-secondary); }
+    .section-header { text-align: center; margin-bottom: 64px; }
+    .section-header h2 { font-size: 40px; font-weight: 700; margin-bottom: 16px; }
+    .section-header p { font-size: 18px; color: var(--text-secondary); }
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+    .feature-card { background: var(--bg); border: 1px solid var(--border); border-radius: 20px; padding: 32px; transition: all 0.3s; }
+    .feature-card:hover { transform: translateY(-4px); border-color: var(--accent); }
+    .feature-icon { width: 56px; height: 56px; background: linear-gradient(135deg, #f59e0b, #d97706); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 24px; margin-bottom: 20px; }
+    .feature-card h3 { font-size: 20px; font-weight: 600; margin-bottom: 12px; }
+    .feature-card p { color: var(--text-secondary); font-size: 15px; }
+    .social-proof { padding: 100px 0; }
+    .testimonials { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; }
+    .testimonial { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 20px; padding: 32px; }
+    .testimonial-stars { color: #fbbf24; font-size: 18px; margin-bottom: 16px; letter-spacing: 2px; }
+    .testimonial p { font-size: 16px; margin-bottom: 20px; }
+    .testimonial-author { display: flex; align-items: center; gap: 12px; }
+    .testimonial-avatar { width: 44px; height: 44px; background: linear-gradient(135deg, #f59e0b, #d97706); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600; }
+    .testimonial-name { font-weight: 600; font-size: 14px; }
+    .testimonial-title { font-size: 13px; color: var(--text-secondary); }
+    .cta { padding: 100px 0; background: var(--bg-secondary); text-align: center; }
+    .cta h2 { font-size: 40px; font-weight: 700; margin-bottom: 16px; }
+    .cta p { font-size: 18px; color: var(--text-secondary); margin-bottom: 40px; }
+    .cta-btn { background: #111111; color: white; padding: 16px 32px; border-radius: 14px; text-decoration: none; font-weight: 600; font-size: 16px; }
+    .dark .cta-btn { background: #ffffff; color: #000000; }
+    footer { padding: 40px 0; border-top: 1px solid var(--border); }
+    .footer-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; }
+    .footer-copy { color: var(--text-secondary); font-size: 14px; }
+    .footer-links { display: flex; gap: 24px; }
+    .footer-links a { color: var(--text-secondary); text-decoration: none; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+    const { motion } = window.Motion;
+    function App() {
+      const [dark, setDark] = useState(false);
+      useEffect(() => { if (window.matchMedia('(prefers-color-scheme: dark)').matches) setDark(true); }, []);
+      useEffect(() => { document.body.classList.toggle('dark', dark); }, [dark]);
+      return (
+        <React.Fragment>
+          <header><div className="container header-inner"><div className="logo"><div className="logo-icon">🏷️</div>DealHunter</div><div className="nav-right"><button className="theme-toggle" onClick={() => setDark(!dark)}>{dark ? '☀️' : '🌙'}</button><a href="#" className="app-store-btn"> App Store</a></div></div></header>
+          <section className="hero">
+            <div className="container">
+              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="hero-badge">🔥 Daily Deals & Discounts</motion.div>
+              <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.1 }}>Never Pay<br/><span>Full Price Again</span></motion.h1>
+              <motion.p initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.2 }}>Discover the best deals from your favorite stores. Get notified before sales end. Save money on everything you buy.</motion.p>
+              <motion.div className="hero-cta" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.3 }}><a href="#" className="app-store-btn" style={{padding: '14px 28px', fontSize: '16px'}}> Download on App Store</a></motion.div>
+              <motion.div className="hero-mockup" initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.4 }}><div className="mockup-frame"><div className="mockup-inner"><div className="deal-card"><span className="discount">-50%</span> Nike Air Max</div><div className="deal-card"><span className="discount">-30%</span> Apple AirPods</div><div className="deal-card"><span className="discount">-40%</span> Samsung TV</div></div></div></motion.div>
+            </div>
+          </section>
+          <section className="features">
+            <div className="container">
+              <div className="section-header"><motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>Your Personal Deal Finder</motion.h2><motion.p initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.1 }}>Smart features that find the best prices</motion.p></div>
+              <div className="features-grid">
+                {[{ icon: '🔔', title: 'Deal Alerts', desc: 'Get instant notifications when your favorite items go on sale. Never miss a deal again.' }, { icon: '🔍', title: 'Price Comparison', desc: 'Compare prices across hundreds of stores. Find the best deal with one tap.' }, { icon: '💰', title: 'Price History', desc: 'See price trends over time. Know if now is the right time to buy.' }, { icon: '❤️', title: 'Wishlist Tracking', desc: 'Add items to your wishlist and get alerts when prices drop.' }].map((f, i) => (<motion.div key={i} className="feature-card" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.1 }}><div className="feature-icon">{f.icon}</div><h3>{f.title}</h3><p>{f.desc}</p></motion.div>))}
+              </div>
+            </div>
+          </section>
+          <section className="social-proof">
+            <div className="container">
+              <div className="section-header"><motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>Saved Thousands</motion.h2><motion.p initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.1 }}>Join deal hunters who never overpay</motion.p></div>
+              <div className="testimonials">
+                {[{ name: 'Sarah J.', title: 'Smart Shopper', text: 'DealHunter paid for itself in the first week. Found amazing deals on holiday gifts!' }, { name: 'Mike R.', title: 'Bargain Pro', text: 'The price alerts are incredible. I saved over $500 on my new laptop.' }, { name: 'Emily T.', title: 'Deal Blogger', text: 'As someone who shops smart, this app is my secret weapon. Highly recommend!' }].map((t, i) => (<motion.div key={i} className="testimonial" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.1 }}><div className="testimonial-stars">★★★★★</div><p>"{t.text}"</p><div className="testimonial-author"><div className="testimonial-avatar">{t.name[0]}</div><div><div className="testimonial-name">{t.name}</div><div className="testimonial-title">{t.title}</div></div></div></motion.div>))}
+              </div>
+            </div>
+          </section>
+          <section className="cta">
+            <div className="container"><motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>Start Saving Today</motion.h2><motion.p initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.1 }}>Download DealHunter and never pay full price again</motion.p><motion.div className="cta-buttons" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.2 }}><a href="#" className="cta-btn"> Download on App Store</a></motion.div></div>
+          </section>
+          <footer><div className="container footer-inner"><div className="footer-copy">© 2026 DealHunter. All rights reserved.</div><div className="footer-links"><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Support</a></div></div></footer>
+        </React.Fragment>
+      );
+    }
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>
