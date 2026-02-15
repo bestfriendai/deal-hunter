@@ -108,3 +108,25 @@ The app features:
 ## License
 
 MIT
+
+## API Configuration
+
+### Required API Keys
+Create a `.env` file in the project root:
+```bash
+EXPO_PUBLIC_REVENUECAT_API_KEY=your_revenuecat_api_key
+EXPO_PUBLIC_DEAL_API_KEY=your_deal_api_key
+EXPO_PUBLIC_MAPS_API_KEY=your_maps_api_key
+```
+
+### Getting API Keys
+1. RevenueCat: https://www.revenuecat.com
+2. Deal API: Provider of your choice
+3. Maps API: Google Maps or Apple Maps
+
+### Type Checking
+npx tsc --noEmit
+
+### Building for Production
+eas build --platform ios
+eas build --platform android
