@@ -66,6 +66,35 @@ npm install
 npx expo start
 ```
 
+## API Configuration
+
+### Environment Variables
+
+Create a `.env` file in the project root:
+
+```bash
+# Deal/Coupon API (for deal aggregation)
+DEAL_API_KEY=your_deal_api_key
+DEAL_API_URL=https://api.dealhunter.com/v1
+
+# Location Services
+MAPS_API_KEY=your_maps_api_key
+```
+
+### RevenueCat Configuration
+
+1. Create an account at [RevenueCat.com](https://revenuecat.com)
+2. Create products in App Store Connect / Google Play Console:
+   - Monthly: $2.99/month - `dealhunter_monthly`
+   - Annual: $14.99/year - `dealhunter_annual`
+3. Configure products in RevenueCat dashboard
+4. Add your API key:
+
+```typescript
+// src/services/purchases.ts
+export const REVENUECAT_API_KEY = 'your_revenuecat_public_key';
+```
+
 ## Screenshots
 
 The app features:
