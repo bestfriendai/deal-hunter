@@ -84,6 +84,12 @@ export const useDealStore = create<DealState>((set, get) => ({
   isLoading: false,
   error: null,
 
+  // TODO: Replace with real API call to fetch deals from backend
+  // loadDeals: async () => {
+  //   const response = await fetch('https://api.dealhunter.app/deals');
+  //   const deals = await response.json();
+  //   set({ deals, isLoading: false });
+  // },
   loadDeals: async () => {
     set({ isLoading: true, error: null });
     try {

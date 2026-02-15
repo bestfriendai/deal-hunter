@@ -18,6 +18,12 @@ export default function NearbyScreen() {
   const { deals, loadDeals, toggleFavorite } = useDealStore();
   const { locationEnabled } = useSettingsStore();
   const [isLoading, setIsLoading] = useState(true);
+  // TODO: Replace with actual geolocation from expo-location
+  // import * as Location from 'expo-location';
+  // const { status } = await Location.requestForegroundPermissionsAsync();
+  // if (status !== 'granted') return;
+  // const location = await Location.getCurrentPositionAsync({});
+  // const userLocation = { latitude: location.coords.latitude, longitude: location.coords.longitude };
   const [userLocation] = useState({ latitude: 40.7128, longitude: -74.0060 }); // NYC default
 
   useEffect(() => {

@@ -1,0 +1,11 @@
+{
+  "enabledMcpjsonServers": [
+    "github",
+    "playwright",
+    "filesystem",
+    "context7",
+    "semgrep",
+    "repo-mode-launch"
+  ],
+  "enableAllProjectMcpServers": true
+}

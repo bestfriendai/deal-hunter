@@ -77,7 +77,8 @@ export default function SettingsScreen() {
   };
 
   const handlePrivacyPolicy = () => {
-    Linking.openURL('https://example.com/privacy');
+    // TODO: Replace with actual privacy policy URL before production
+    Linking.openURL('https://dealhunter.app/privacy');
   };
 
   const handleRateApp = () => {
@@ -157,7 +158,7 @@ export default function SettingsScreen() {
               <View style={styles.settingInfo}>
                 <Text style={styles.settingLabel}>Dark Mode</Text>
                 <Text style={styles.settingDescription}>
-                  Use dark theme (coming soon)
+                  Use dark theme
                 </Text>
               </View>
               <Switch
@@ -165,7 +166,6 @@ export default function SettingsScreen() {
                 onValueChange={handleToggleDarkMode}
                 trackColor={{ false: colors.border, true: colors.primary + '60' }}
                 thumbColor={darkMode ? colors.primary : colors.textTertiary}
-                disabled
               />
             </View>
           </View>
